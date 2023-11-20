@@ -11,40 +11,25 @@
 
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="ContentDetails">
     <div>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />
-        <br />
-        &nbsp;
-            
-     <div id="add" style="clip: rect(auto, auto, auto, inherit); margin-left: 750px; margin-right: auto; margin-bottom: auto; font-family: Arial, Helvetica, sans-serif;" class="auto-style15">
-         <div class="form-group">
-             <label for="exampleInputEmail1" class="auto-style15" style="font-family: Arial, Helvetica, sans-serif; font-weight: normal;">
-                 ADD ASSIGN<br />
-                 <br />
-                 Party Name :-&nbsp;&nbsp;
-             <asp:DropDownList ID="partyDropdown" runat="server" Height="23px" Width="112px">
+
+        <div id="add" style="clip: rect(auto, auto, auto, inherit); margin-left: 750px; margin-right: auto; margin-bottom: auto; font-family: Arial, Helvetica, sans-serif;" class="auto-style15">
+            <div class="form-group">
+                <label for="exampleInputEmail1" class="auto-style15" style="font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin-bottom: 20px">
+                    ADD ASSIGN<br />
+                    <br />
+                    Party Name :-
+             <asp:DropDownList ID="partyDropdown" runat="server" Height="23px" Width="112px" Style="margin-left: 20px">
              </asp:DropDownList>
-                 <br />
-                 <br />
-                 product Name :-&nbsp;
-             <asp:DropDownList ID="productDropdown" runat="server" Height="23px" Width="112px">
+                    <div style="margin-bottom: 20px"></div>
+                    product Name :-
+             <asp:DropDownList ID="productDropdown" runat="server" Height="23px" Width="112px" Style="margin-left: 20px">
              </asp:DropDownList>
-                 <br />
-                 <br />
-             </label>
+                </label>
+            </div>
+            <asp:Button ID="save" class="btn btn-success" runat="server" Text="Save" OnClick="save_Click" Style="margin-right: 20px" />
+            <asp:Button ID="cancle" class="btn btn-warning" runat="server" Text="Cancle" OnClick="cancle_Click" />
 
-         </div>
-
-
-
-
-         <asp:Button ID="save" class="btn btn-success" runat="server" Text="Save" OnClick="save_Click" />
-         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-         <asp:Button ID="cancle" class="btn btn-warning" runat="server" Text="Cancle" OnClick="cancle_Click" />
-         &nbsp;&nbsp;
-         
-     </div>
-        <br />
-        <br />
+        </div>
 
     </div>
 </asp:Content>

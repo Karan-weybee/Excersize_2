@@ -5,11 +5,14 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace Exercise_2
 {
     public partial class Assign_Party : System.Web.UI.Page
     {
+        private SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["PartyProductConnectionString"].ConnectionString);
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["user"] == null)
@@ -27,51 +30,47 @@ namespace Exercise_2
 
             int ids = (int)GridView2.DataKeys[e.RowIndex].Value;
 
-            string PName = ((DropDownList)(GridView2.Rows[e.RowIndex]
+            string partyName = ((DropDownList)(GridView2.Rows[e.RowIndex]
                 .Cells[0].FindControl("DropDownList1"))).SelectedValue;
-            string PRName = ((DropDownList)(GridView2.Rows[e.RowIndex].Cells[0].FindControl("DropDownList2"))).SelectedValue;
+            string productName = ((DropDownList)(GridView2.Rows[e.RowIndex].Cells[0].FindControl("DropDownList2"))).SelectedValue;
 
             int count = -1;
 
-            string ConStr2 = @"Data Source=DESKTOP-9IJS7NM; Initial Catalog=Exercise2; Integrated Security=SSPI;";
-            SqlConnection con2 = new SqlConnection(ConStr2);
             string query2 = " select a.id,p.PartyName,pr.ProductName from party p inner join AssignParty a on p.id = a.party_id inner join products pr on pr.id = a.product_id where p.PartyName=@PartyName and pr.ProductName=@ProductName";
-            SqlCommand cmd2 = new SqlCommand(query2, con2);
-            cmd2.Parameters.AddWithValue("@PartyName", PName);
-            cmd2.Parameters.AddWithValue("@ProductName", PRName);
-            con2.Open();
+            SqlCommand cmd2 = new SqlCommand(query2, sqlConnection);
+            cmd2.Parameters.AddWithValue("@PartyName", partyName);
+            cmd2.Parameters.AddWithValue("@ProductName", productName);
+            sqlConnection.Open();
             SqlDataReader reader2 = cmd2.ExecuteReader();
             while (reader2.Read())
             {
                 count++;
             }
-            con2.Close();
+            sqlConnection.Close();
 
             if (count == -1)
             {
-                SqlDataSource3.UpdateParameters["PartyName"].DefaultValue = PName;
-                SqlDataSource3.UpdateParameters["ProductName"].DefaultValue = PRName;
+                SqlDataSource3.UpdateParameters["PartyName"].DefaultValue = partyName;
+                SqlDataSource3.UpdateParameters["ProductName"].DefaultValue = productName;
             }
             else
             {
-                string pname1 = "";
-                string prname1 = "";
+                string partyname = "";
+                string productname = "";
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('Updated Record Is Already Available')", true);
-                string ConStr3 = @"Data Source=DESKTOP-9IJS7NM; Initial Catalog=Exercise2; Integrated Security=SSPI;";
-                SqlConnection con3 = new SqlConnection(ConStr3);
                 string query3 = " select a.id,p.PartyName,pr.ProductName from party p inner join AssignParty a on p.id = a.party_id inner join products pr on pr.id = a.product_id where a.id=@ids";
-                SqlCommand cmd3 = new SqlCommand(query3, con3);
+                SqlCommand cmd3 = new SqlCommand(query3, sqlConnection);
                 cmd3.Parameters.AddWithValue("@ids", ids);
-                con3.Open();
+                sqlConnection.Open();
                 SqlDataReader reader3 = cmd3.ExecuteReader();
                 while (reader3.Read())
                 {
-                    pname1 = reader3.GetString(1);
-                    prname1 = reader3.GetString(2);
+                    partyname = reader3.GetString(1);
+                    productname = reader3.GetString(2);
                 }
-                con3.Close();
-                SqlDataSource3.UpdateParameters["PartyName"].DefaultValue = pname1;
-                SqlDataSource3.UpdateParameters["ProductName"].DefaultValue = prname1;
+                sqlConnection.Close();
+                SqlDataSource3.UpdateParameters["PartyName"].DefaultValue = partyname;
+                SqlDataSource3.UpdateParameters["ProductName"].DefaultValue = productname;
                 count = -1;
 
             }

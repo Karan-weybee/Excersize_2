@@ -5,11 +5,14 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace Exercise_2
 {
     public partial class AddProduct : System.Web.UI.Page
     {
+        private SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["PartyProductConnectionString"].ConnectionString);
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["user"] == null)
@@ -20,41 +23,34 @@ namespace Exercise_2
 
         protected void save_Click(object sender, EventArgs e)
         {
-            string name = ProductName.Text.Trim();
+            string productName = ProductName.Text.Trim();
             bool b = false;
-            if (name != String.Empty)
+            if (productName != String.Empty)
             {
-                string ConStr1 = @"Data Source=DESKTOP-9IJS7NM; Initial Catalog=Exercise2; Integrated Security=SSPI;";
-                SqlConnection con1 = new SqlConnection(ConStr1);
+                string query1 = "select * from Products Where ProductName = @productName";
 
-                string query1 = "select * from Products Where ProductName = @name";
-
-
-                SqlCommand cmd1 = new SqlCommand(query1, con1);
-                cmd1.Parameters.AddWithValue("@name", name);
-                con1.Open();
+                SqlCommand cmd1 = new SqlCommand(query1, sqlConnection);
+                cmd1.Parameters.AddWithValue("@productName", productName);
+                sqlConnection.Open();
                 SqlDataReader reader = cmd1.ExecuteReader();
                 while (reader.Read())
                 {
                     b = true;
                     break;
                 }
-                con1.Close();
+                sqlConnection.Close();
                 if (!b)
                 {
 
-                    string ConStr = @"Data Source=DESKTOP-9IJS7NM; Initial Catalog=Exercise2; Integrated Security=SSPI;";
-                    SqlConnection con = new SqlConnection(ConStr);
-
-                    string query = "insert into [dbo].[Products] (ProductName) values (@name)";
+                    string query = "insert into [dbo].[Products] (ProductName) values (@productName)";
 
 
-                    SqlCommand cmd = new SqlCommand(query, con);
-                    cmd.Parameters.AddWithValue("@name", name);
-                    con.Open();
+                    SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                    cmd.Parameters.AddWithValue("@productName", productName);
+                    sqlConnection.Open();
                     int rowCount = cmd.ExecuteNonQuery();
 
-                    con.Close();
+                    sqlConnection.Close();
                     ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('Product Added Successfully .. ')", true);
 
                 }

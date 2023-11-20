@@ -24,8 +24,6 @@ namespace Exercise_2
 
         protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
-            // int ids = (int)GridView1.DataKeys[e.RowIndex].Value;
-
             string PRName = ((DropDownList)(GridView1.Rows[e.RowIndex]
                 .Cells[0].FindControl("DropDownList1"))).SelectedValue;
 
