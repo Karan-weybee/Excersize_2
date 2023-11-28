@@ -17,14 +17,16 @@ namespace Exercise_2
         {
             int sum = 0;
 
-            string query = "select Total from Invoice";
+            string query = "select SUM(Total) from Invoice";
             SqlCommand cmd = new SqlCommand(query, sqlConnection);
-            cmd.Parameters.AddWithValue("@ProductName", ProductDropDown.SelectedValue.ToString());
             sqlConnection.Open();
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
+            try
             {
-                sum += reader.GetInt32(0);
+                sum += (int)cmd.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                sum = 0;
             }
             GrandTotal1.Text = Convert.ToString(sum);
             sqlConnection.Close();
@@ -68,7 +70,6 @@ namespace Exercise_2
             {
                 PartyDropDown.Enabled = true;
             }
-
 
             CalcGrandTotal();
         }
@@ -127,21 +128,30 @@ namespace Exercise_2
 
         protected void save_Click(object sender, EventArgs e)
         {
+
             string party = PartyDropDown.SelectedValue.ToString();
             string product = ProductDropDown.SelectedValue.ToString();
             int rate = -1;
             int quantity = 0;
             int total = 0;
+            int productId = 0, partyId = 0;
+            if (party != String.Empty && party != "select Party" && product != "select Product")
+            {
+                //find productId
+                productId = findProduct(product);
+
+                //finding partytId
+                partyId = findParty(party);
+            }
             try
             {
-
                 rate = Convert.ToInt32(Rate.Text);
                 quantity = Convert.ToInt32(Quantity.Text);
                 total = rate * quantity;
             }
             catch (Exception ex)
             {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('Enter Valid Rate and Quantity.. ')", true);
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('Enter Valid Data.. ')", true);
 
             }
 
@@ -150,12 +160,11 @@ namespace Exercise_2
             {
 
 
-                string query = "insert into [dbo].[Invoice] values (@party,@product,@rate,@quantity,@total)";
-
+                string query = "insert into [dbo].[Invoice] values (@partyId,@productId,@rate,@quantity,@total)";
 
                 SqlCommand cmd = new SqlCommand(query, sqlConnection);
-                cmd.Parameters.AddWithValue("@party", party);
-                cmd.Parameters.AddWithValue("@product", product);
+                cmd.Parameters.AddWithValue("@partyId", partyId);
+                cmd.Parameters.AddWithValue("@productId", productId);
                 cmd.Parameters.AddWithValue("@rate", rate);
                 cmd.Parameters.AddWithValue("@quantity", quantity);
                 cmd.Parameters.AddWithValue("@total", total);
@@ -165,6 +174,7 @@ namespace Exercise_2
                 sqlConnection.Close();
                 Session["party_Name"] = PartyDropDown.SelectedValue.ToString();
                 Session["productCount"] = "1";
+                // CalcGrandTotal();
                 Response.Redirect("Invoice.aspx");
 
             }
@@ -189,6 +199,24 @@ namespace Exercise_2
             sqlConnection.Close();
             Session["party_Name"] = null;
             Response.Redirect("Invoice.aspx");
+        }
+        public int findProduct(string productName)
+        {
+            SqlCommand cmd = new SqlCommand("select top 1 id from products where ProductName=@ProductName", sqlConnection);
+            cmd.Parameters.AddWithValue("@ProductName", productName);
+            sqlConnection.Open();
+            int productId = (int)cmd.ExecuteScalar();
+            sqlConnection.Close();
+            return productId;
+        }
+        public int findParty(string partyName)
+        {
+            SqlCommand cmd1 = new SqlCommand("select top 1 id from party where PartyName=@PartyName", sqlConnection);
+            cmd1.Parameters.AddWithValue("@PartyName", partyName);
+            sqlConnection.Open();
+            int partyId = (int)cmd1.ExecuteScalar();
+            sqlConnection.Close();
+            return partyId;
         }
     }
 }

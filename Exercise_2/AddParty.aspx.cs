@@ -23,27 +23,12 @@ namespace Exercise_2
         protected void save_Click(object sender, EventArgs e)
         {
             string partyName = PartyName.Text.Trim();
-            bool b = false;
             if (partyName != String.Empty)
             {
-                string query1 = "select * from Party Where PartyName = @partyName";
 
-                SqlCommand cmd1 = new SqlCommand(query1, sqlConnection);
-                cmd1.Parameters.AddWithValue("@partyName", partyName);
-                sqlConnection.Open();
-                SqlDataReader reader = cmd1.ExecuteReader();
-                while (reader.Read())
+                if (!isAvailableParty(partyName))
                 {
-                    b = true;
-                    break;
-                }
-                sqlConnection.Close();
-                if (!b)
-                {
-                    string query = "insert into [dbo].[Party] (PartyName) values (@partyName)";
-
-
-                    SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                    SqlCommand cmd = new SqlCommand("insert into [dbo].[Party] (PartyName) values (@partyName)", sqlConnection);
                     cmd.Parameters.AddWithValue("@partyName", partyName);
                     sqlConnection.Open();
                     int rowCount = cmd.ExecuteNonQuery();
@@ -66,6 +51,17 @@ namespace Exercise_2
         protected void cancle_Click(object sender, EventArgs e)
         {
             Response.Redirect("party.aspx");
+        }
+        public bool isAvailableParty(string partyName)
+        {
+            SqlCommand cmd = new SqlCommand("select * from Party Where PartyName = @partyName", sqlConnection);
+            cmd.Parameters.AddWithValue("@partyName", partyName);
+            sqlConnection.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            bool isAvailable = reader.HasRows;
+            sqlConnection.Close();
+            return isAvailable;
         }
     }
 }

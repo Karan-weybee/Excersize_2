@@ -27,28 +27,13 @@ namespace Exercise_2
                 int rate = Convert.ToInt32(ProductRate.Text);
                 if (rate < 0)
                 {
-                    error.Text = "Please Enter valid rate";
-                    throw new Exception("Please Enter valid rate");
+
+                    throw new Exception(" ");
                 }
                 string Date1 = Calendar1.SelectedDate.Year.ToString() + "-" + Calendar1.SelectedDate.Month.ToString() + "-" + Calendar1.SelectedDate.Day.ToString();
 
-                int productId = -1;
 
-
-                string query = "select * from Products";
-                SqlCommand cmd = new SqlCommand(query, sqlConnection);
-                sqlConnection.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    if (reader.GetString(1) == ProductName.SelectedValue)
-                    {
-                        productId = reader.GetInt32(0);
-
-                        break;
-                    }
-                }
-                sqlConnection.Close();
+                int productId = findProduct(ProductName.SelectedValue);
                 if (productId != -1)
                 {
                     string query1 = "insert into [dbo].[ProductRate] values (@Product_id,@Rate,@date)";
@@ -79,6 +64,15 @@ namespace Exercise_2
         protected void cancle_Click(object sender, EventArgs e)
         {
             Response.Redirect("Product_Rate.aspx");
+        }
+        public int findProduct(string ProductName)
+        {
+            SqlCommand cmd = new SqlCommand("select id from Products where ProductName=@ProductName", sqlConnection);
+            cmd.Parameters.AddWithValue("@ProductName", ProductName);
+            sqlConnection.Open();
+            int productId = (int)cmd.ExecuteScalar();
+            sqlConnection.Close();
+            return productId;
         }
     }
 }
