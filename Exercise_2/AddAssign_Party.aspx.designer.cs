@@ -24,6 +24,15 @@ namespace Exercise_2
         protected global::System.Web.UI.WebControls.DropDownList partyDropdown;
 
         /// <summary>
+        /// addPartyInDropDown control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource addPartyInDropDown;
+
+        /// <summary>
         /// productDropdown control.
         /// </summary>
         /// <remarks>
@@ -31,6 +40,15 @@ namespace Exercise_2
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList productDropdown;
+
+        /// <summary>
+        /// addProductInDropDown control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource addProductInDropDown;
 
         /// <summary>
         /// save control.

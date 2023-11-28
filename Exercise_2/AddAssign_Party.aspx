@@ -18,12 +18,15 @@
                     ADD ASSIGN<br />
                     <br />
                     Party Name :-
-             <asp:DropDownList ID="partyDropdown" runat="server" Height="23px" Width="112px" Style="margin-left: 20px">
+             <asp:DropDownList ID="partyDropdown" runat="server" Height="23px" Width="112px" Style="margin-left: 20px" DataSourceID="addPartyInDropDown" DataTextField="PartyName" DataValueField="PartyName">
              </asp:DropDownList>
+                    <asp:SqlDataSource ID="addPartyInDropDown" runat="server" ConnectionString="<%$ ConnectionStrings:PartyProductConnectionString %>" SelectCommand="select PartyName from Party"></asp:SqlDataSource>
                     <div style="margin-bottom: 20px"></div>
                     product Name :-
-             <asp:DropDownList ID="productDropdown" runat="server" Height="23px" Width="112px" Style="margin-left: 20px">
+             <asp:DropDownList ID="productDropdown" runat="server" Height="23px" Width="112px" Style="margin-left: 20px" DataSourceID="addProductInDropDown" DataTextField="productName" DataValueField="productName">
              </asp:DropDownList>
+                    <asp:SqlDataSource ID="addProductInDropDown" runat="server" ConnectionString="<%$ ConnectionStrings:PartyProductConnectionString %>" SelectCommand="select productName from products"></asp:SqlDataSource>
+                    <br />
                 </label>
             </div>
             <asp:Button ID="save" class="btn btn-success" runat="server" Text="Save" OnClick="save_Click" Style="margin-right: 20px" />

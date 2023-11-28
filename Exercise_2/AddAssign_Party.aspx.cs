@@ -14,30 +14,7 @@ namespace Exercise_2
     {
         private SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["PartyProductConnectionString"].ConnectionString);
 
-        public void addPartyDropdown()
-        {
-            string query = "select * from party";
-            SqlCommand cmd = new SqlCommand(query, sqlConnection);
-            sqlConnection.Open();
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                partyDropdown.Items.Add(reader.GetString(1));
-            }
-            sqlConnection.Close();
-        }
-        public void addProductDropdown()
-        {
-            string query = "select * from products";
-            SqlCommand cmd = new SqlCommand(query, sqlConnection);
-            sqlConnection.Open();
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                productDropdown.Items.Add(reader.GetString(1));
-            }
-            sqlConnection.Close();
-        }
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -45,8 +22,7 @@ namespace Exercise_2
             {
                 Response.Redirect("Login.aspx");
             }
-            addPartyDropdown();
-            addProductDropdown();
+
 
         }
 
