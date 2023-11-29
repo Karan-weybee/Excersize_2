@@ -159,7 +159,6 @@ namespace Exercise_2
             if (party != String.Empty && party != "select Party" && product != "select Product" && product != String.Empty && rate > -1 && quantity > 0)
             {
 
-
                 string query = "insert into [dbo].[Invoice] values (@partyId,@productId,@rate,@quantity,@total)";
 
                 SqlCommand cmd = new SqlCommand(query, sqlConnection);

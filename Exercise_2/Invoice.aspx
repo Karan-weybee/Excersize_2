@@ -74,7 +74,7 @@
             <SortedDescendingHeaderStyle BackColor="#242121" />
         </asp:GridView>
 
-        <asp:SqlDataSource ID="SqlDataSource3" runat="server" ConnectionString="<%$ ConnectionStrings:PartyProductConnectionString %>" SelectCommand="select  i.id,p.PartyName,Pr.ProductName,i.Rate_of_product,i.Quantity,i.Total from invoice i inner join Party p on p.id=i.Party inner join Products pr on i.Product=pr.id "></asp:SqlDataSource>
+        <asp:SqlDataSource ID="SqlDataSource3" runat="server" ConnectionString="<%$ ConnectionStrings:PartyProductConnectionString %>" SelectCommand="select  i.id,p.PartyName,Pr.ProductName,i.Rate_of_product,i.Quantity,i.Total from invoice i inner join Party p on p.id=i.PartyId inner join Products pr on i.ProductId=pr.id "></asp:SqlDataSource>
 
         <br />
 
